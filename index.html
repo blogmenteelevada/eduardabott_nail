@@ -27,7 +27,7 @@
             overflow-x: hidden;
         }
 
-        /* --- HERO: DESIGN CORRIGIDO (SPLIT) --- */
+        /* --- HERO: LAYOUT TRAVADO (REVISTA) --- */
         .hero {
             position: relative;
             width: 100%;
@@ -38,22 +38,22 @@
             display: block; 
         }
 
-        /* 1. FUNDO */
+        /* 1. FUNDO (FOTO TRABALHANDO - COLORIDA ESCURECIDA) */
         .hero-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('hero_bg.jpg'); 
             background-size: cover; 
             background-position: center;
-            filter: brightness(0.35); 
+            filter: brightness(0.35); /* Apenas escuro, sem grayscale */
             z-index: 1;
         }
 
-        /* 2. TEXTO (TRAVADO NO TOPO ESQUERDO) */
+        /* 2. TEXTO (TRAVADO NA ESQUERDA - LIMITE DE LARGURA) */
         .hero-content {
             position: absolute;
-            top: 12%; 
+            top: 15%; 
             left: 20px; 
-            width: 65%; 
+            width: 55%; /* Ocupa só metade da tela para não bater nela */
             z-index: 10; 
             text-align: left;
         }
@@ -71,7 +71,7 @@
 
         .hero-title {
             font-family: 'Italiana', serif;
-            font-size: 4.2rem; 
+            font-size: 3.8rem; 
             line-height: 0.9;
             color: #fff;
             margin-bottom: 20px;
@@ -100,12 +100,12 @@
         }
         .badge-icon { color: var(--gold); }
 
-        /* 3. PESSOA (TRAVADA EMBAIXO E NA DIREITA) */
+        /* 3. PESSOA (TRAVADA NA DIREITA - SEM TEXTO EM CIMA) */
         .hero-person {
             position: absolute;
             bottom: 0;
-            right: -25%; 
-            height: 80vh; 
+            right: -10%; 
+            height: 75%; /* Tamanho bom para mobile */
             width: auto;
             z-index: 5;
             filter: drop-shadow(-10px 0 20px rgba(0,0,0,0.5));
@@ -152,14 +152,13 @@
             cursor: pointer; transition: 0.2s;
         }
         .service-card.selected { border-color: var(--gold); background: rgba(212, 175, 55, 0.1); }
-        .s-price { font-family: 'Italiana', serif; font-size: 1.4rem; font-weight: 700; color: #fff; }
         
-        .s-info h3 { font-size: 1rem; font-weight: 600; color: #fff; margin-bottom: 4px; }
+        /* CORES RESTAURADAS */
+        .s-info h3 { font-size: 1rem; font-weight: 600; color: #FFF; margin-bottom: 4px; }
         .s-info p { font-size: 0.75rem; color: var(--muted); }
+        .s-price { font-family: 'Italiana', serif; font-size: 1.4rem; font-weight: 700; color: var(--gold); }
 
         .form-area { margin-top: 30px; background: #121212; padding: 25px; border-radius: 20px; border: 1px solid #222; }
-        
-        /* Rótulos mais amigáveis */
         label { color: var(--muted); font-size: 0.75rem; margin-bottom: 8px; display: block; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
         
         input, select { width: 100%; background: #080808; border: 1px solid #333; color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 1rem; }
@@ -240,7 +239,7 @@
             <div class="carousel-item"><img src="unha3.jpg"></div>
             <div class="carousel-item"><img src="unha4.jpg"></div>
             <div class="carousel-item"><img src="unha5.jpg"></div>
-            <!-- Imagens Duplicadas para Loop -->
+            <!-- Loop -->
             <div class="carousel-item"><img src="unha1.jpg"></div>
             <div class="carousel-item"><img src="unha2.jpg"></div>
             <div class="carousel-item"><img src="unha3.jpg"></div>
@@ -270,10 +269,10 @@
                     <input type="date" id="cDate" onchange="updateTimeSlots()">
                 </div>
                 <div>
-                    <label>Qual horário?</label>
+                    <label>Horário</label>
                     <select id="cTime" onchange="calcTime()">
                         <option value="">Selecione...</option>
-                        <!-- Preenchido pelo JS -->
+                        <!-- JS vai gerar de 30 em 30 min -->
                     </select>
                 </div>
             </div>
@@ -305,7 +304,7 @@
     <script>
         const WHATSAPP = "5548999999999"; 
         
-        // CONFIGURAÇÃO DE HORÁRIOS (07h as 23h)
+        // HORÁRIOS: 07:00 as 23:00
         const OPEN_HOUR = 7; 
         const CLOSE_HOUR = 23; 
 
@@ -322,11 +321,9 @@
 
         // INICIALIZAÇÃO
         window.onload = () => {
-            // Trava datas passadas no calendário
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('cDate').min = today;
             
-            // Renderiza serviços
             const list = document.getElementById('serviceList');
             list.innerHTML = services.map(s => `
                 <div class="service-card" onclick="select(this, ${s.id})">
@@ -347,7 +344,7 @@
             calcTime();
         }
 
-        // LÓGICA DE HORÁRIOS
+        // LÓGICA FLEXÍVEL (30 EM 30 MIN)
         function updateTimeSlots() {
             const dateVal = document.getElementById('cDate').value;
             const timeSelect = document.getElementById('cTime');
@@ -359,18 +356,24 @@
             const now = new Date();
             const isToday = selectedDate.toDateString() === now.toDateString();
             const currentHour = now.getHours();
+            const currentMin = now.getMinutes();
 
-            // Gera horários de 7h às 23h
-            for (let h = OPEN_HOUR; h <= CLOSE_HOUR; h++) {
-                // Se for hoje e a hora já passou, não mostra
-                if (isToday && h <= currentHour) continue;
+            // Gera horários de 7h às 23h com intervalo de 30min
+            for (let h = OPEN_HOUR; h < CLOSE_HOUR; h++) {
+                for (let m = 0; m < 60; m += 30) {
+                    
+                    // Se for hoje e já passou do horário, pula
+                    if (isToday) {
+                        if (h < currentHour) continue;
+                        if (h === currentHour && m <= currentMin) continue;
+                    }
 
-                // Mostra todos os horários livres, mesmo que termine de madrugada
-                const timeStr = h.toString().padStart(2, '0') + ':00';
-                const opt = document.createElement('option');
-                opt.value = timeStr;
-                opt.innerText = timeStr;
-                timeSelect.appendChild(opt);
+                    const timeStr = h.toString().padStart(2, '0') + ':' + m.toString().padStart(2, '0');
+                    const opt = document.createElement('option');
+                    opt.value = timeStr;
+                    opt.innerText = timeStr;
+                    timeSelect.appendChild(opt);
+                }
             }
         }
 
@@ -388,10 +391,9 @@
             const endStr = end.getHours().toString().padStart(2,'0') + ':' + end.getMinutes().toString().padStart(2,'0');
             
             summary.style.display = 'block';
-            summary.innerHTML = `✨ VOCÊ ESCOLHEU: <strong>${selServ.name}</strong><br>Você escolheu iniciar às ${timeVal}.<br>O procedimento termina aprox. às <strong>${endStr}</strong>.`;
+            summary.innerHTML = `✨ VOCÊ ESCOLHEU: <strong>${selServ.name}</strong><br>Início às ${timeVal} • Término aprox. às <strong>${endStr}</strong>`;
         }
 
-        // FUNÇÕES DO MODAL E ZAP
         function sendZap() {
             const n = document.getElementById('cName').value;
             const d = document.getElementById('cDate').value;
@@ -416,7 +418,14 @@
             const dObj = new Date(d + 'T00:00:00'); 
             const dStr = dObj.toLocaleDateString('pt-BR');
             
-            const msg = `Olá Eduarda! 💅\nMe chamo *${n}*.\n\nGostaria de agendar:\n✨ *${selServ.name}* (R$ ${selServ.price})\n📅 Data: *${dStr}*\n⏰ Horário: *${t}*\n\n*Estou ciente da taxa de reserva.* Aguardo confirmação!`;
+            // Pega o horário final calculado
+            const [h, m] = t.split(':').map(Number);
+            const end = new Date();
+            end.setHours(h);
+            end.setMinutes(m + selServ.time);
+            const endStr = end.getHours().toString().padStart(2,'0') + ':' + end.getMinutes().toString().padStart(2,'0');
+
+            const msg = `Olá Eduarda! 💅\nMe chamo *${n}*.\n\nGostaria de agendar:\n✨ *${selServ.name}* (R$ ${selServ.price})\n📅 Data: *${dStr}*\n⏰ Horário: *${t}* (Até aprox. ${endStr})\n\n*Estou ciente da taxa de reserva.* Aguardo confirmação!`;
             
             window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`);
             closeModal();
