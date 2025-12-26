@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Eduarda Bott | Nail Designer</title>
     
-    <!-- Fontes de Alta Classe -->
     <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@300;400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        /* --- CONFIGURAÇÕES GERAIS --- */
         :root {
             --bg: #0F0F0F;
             --card-bg: #1A1A1A;
@@ -28,141 +26,113 @@
             overflow-x: hidden;
         }
 
-        /* --- HERO: O "POSTER" FIXO --- */
+        /* --- HERO CORRIGIDO: SEPARAÇÃO TOTAL --- */
         .hero {
             position: relative;
             width: 100%;
             height: 100vh;
-            height: 100dvh; /* Altura real do mobile */
+            height: 100dvh;
             overflow: hidden;
-            display: flex;
-            align-items: center; /* Centraliza altura */
+            background-color: #000;
         }
 
-        /* 1. FUNDO (FOTO TRABALHANDO) */
+        /* 1. FUNDO */
         .hero-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('hero_bg.jpg'); 
             background-size: cover; 
             background-position: center;
-            /* Escurece o fundo para destacar o resto, mas mantendo a cor */
-            filter: brightness(0.35); 
+            filter: brightness(0.3); /* Escuro para contraste */
             z-index: 1;
         }
 
-        /* 2. PESSOA RECORTADA (AJUSTE LATERAL) */
-        .hero-person {
-            position: absolute;
-            bottom: 0;
-            /* Joga ela bem para a direita para mostrar o rosto */
-            right: -25%; 
-            /* Tamanho grande */
-            height: 80vh; 
-            width: auto;
-            z-index: 2;
-            /* Sombra para descolar do fundo */
-            filter: drop-shadow(-10px 0 20px rgba(0,0,0,0.5));
-            pointer-events: none;
-        }
-
-        /* 3. SOMBRA DE LEITURA (DEGRADE) */
-        .hero-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            /* Degrade da esquerda (preto) para direita (transparente) */
-            background: linear-gradient(90deg, rgba(15,15,15,0.95) 0%, rgba(15,15,15,0.6) 50%, rgba(15,15,15,0) 100%);
-            z-index: 3;
-        }
-
-        /* 4. CONTEÚDO (TEXTO) */
+        /* 2. TEXTO (TRAVADO NO TOPO ESQUERDO) */
         .hero-content {
-            position: relative;
-            z-index: 4;
-            width: 100%;
-            padding-left: 30px; /* Margem da esquerda */
-            /* Sobe o texto para a parte superior da tela */
             position: absolute;
-            top: 25%; 
+            top: 10%; /* Fica bem no topo */
+            left: 20px; /* Margem esquerda */
+            z-index: 10; /* Fica na frente de tudo */
+            width: 70%; /* Ocupa só 70% da largura para não bater na direita */
         }
 
         .hero-subtitle {
             color: var(--gold);
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 4px;
-            margin-bottom: 10px;
+            letter-spacing: 3px;
             font-weight: 800;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            margin-bottom: 5px;
+            display: block;
         }
 
         .hero-title {
             font-family: 'Italiana', serif;
-            font-size: 4.5rem;
+            font-size: 4rem;
             line-height: 0.9;
             color: #fff;
-            margin-bottom: 30px;
-            text-shadow: 0 4px 15px rgba(0,0,0,1);
+            margin-bottom: 20px;
         }
         
-        .hero-title span { 
-            color: var(--gold); 
-            font-style: italic; 
-        }
+        .hero-title span { color: var(--gold); font-style: italic; }
 
-        /* BADGES */
         .badges-container {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 10px;
             align-items: flex-start;
         }
 
         .badge {
-            background: rgba(30, 30, 30, 0.8);
+            background: rgba(20, 20, 20, 0.9); /* Fundo mais sólido para ler */
             border: 1px solid rgba(212, 175, 55, 0.4);
             color: #eee;
-            padding: 10px 24px;
+            padding: 8px 16px;
             border-radius: 50px;
-            font-size: 0.85rem;
-            backdrop-filter: blur(5px);
-            display: flex; align-items: center; gap: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            font-size: 0.8rem;
+            display: flex; align-items: center; gap: 8px;
         }
         .badge-icon { color: var(--gold); }
 
-        /* FADE NA BASE (Suaviza o corte da foto embaixo) */
-        .hero-fade {
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 20%;
-            background: linear-gradient(to top, var(--bg), transparent);
-            z-index: 3;
+        /* 3. PESSOA (TRAVADA NO CANTO INFERIOR DIREITO) */
+        .hero-person {
+            position: absolute;
+            bottom: 0;
+            right: 0; /* Cola na direita */
+            height: 55%; /* Ocupa pouco mais da metade da tela (pra não bater no texto lá em cima) */
+            width: auto;
+            max-width: 90%;
+            z-index: 5;
+            object-fit: contain;
+            object-position: bottom right;
+            filter: drop-shadow(-5px 0 15px rgba(0,0,0,0.5));
         }
 
-        /* --- CARROSSEL INFINITO --- */
+        /* 4. SOMBRA SÓ NA BASE DA FOTO (Não atrapalha o rosto) */
+        .hero-fade {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 15%;
+            background: linear-gradient(to top, var(--bg), transparent);
+            z-index: 6;
+        }
+
+        /* --- CARROSSEL --- */
         .vitrine-section {
-            padding: 50px 0;
+            padding: 40px 0;
             background: var(--bg);
-            position: relative;
-            z-index: 5;
             border-bottom: 1px solid #222;
             overflow: hidden;
+            position: relative; z-index: 7; /* Acima do hero */
         }
         
-        .section-header { text-align: center; margin-bottom: 30px; }
+        .section-header { text-align: center; margin-bottom: 20px; }
         .section-header h2 { font-family: 'Italiana', serif; font-size: 2rem; color: var(--gold); }
 
         .carousel-track {
-            display: flex;
-            gap: 15px;
-            width: max-content;
+            display: flex; gap: 15px; width: max-content;
             animation: scroll 20s linear infinite;
         }
-
         .carousel-item {
-            width: 160px;
-            height: 220px;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid #333;
-            flex-shrink: 0;
+            width: 160px; height: 220px; border-radius: 12px; overflow: hidden;
+            border: 1px solid #333; flex-shrink: 0;
         }
         .carousel-item img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -170,53 +140,41 @@
         .booking-section { padding: 40px 20px; max-width: 600px; margin: 0 auto; }
         
         .service-list { display: flex; flex-direction: column; gap: 12px; }
-
         .service-card {
-            background: var(--card-bg);
-            border: 1px solid #222;
-            padding: 18px;
-            border-radius: 15px;
-            display: flex; justify-content: space-between; align-items: center;
+            background: var(--card-bg); border: 1px solid #333; padding: 18px;
+            border-radius: 15px; display: flex; justify-content: space-between; align-items: center;
             cursor: pointer; transition: 0.2s;
         }
-        
-        .service-card.selected { 
-            border-color: var(--gold); 
-            background: linear-gradient(90deg, rgba(212, 175, 55, 0.15), transparent);
-        }
-
-        .s-info h3 { font-size: 1rem; font-weight: 600; color: #fff; margin-bottom: 4px; }
-        .s-info p { font-size: 0.75rem; color: var(--gold); }
+        .service-card.selected { border-color: var(--gold); background: rgba(212, 175, 55, 0.1); }
         .s-price { font-family: 'Italiana', serif; font-size: 1.4rem; font-weight: 700; color: #fff; }
-
-        .form-area { margin-top: 40px; background: #121212; padding: 25px; border-radius: 20px; border: 1px solid #222; }
-        label { color: var(--muted); font-size: 0.7rem; margin-bottom: 8px; display: block; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
         
-        input, select {
-            width: 100%; background: #080808; border: 1px solid #333; color: white;
-            padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 1rem;
-        }
-        
-        #timeSummary {
-            background: rgba(212, 175, 55, 0.1); border: 1px solid var(--gold);
-            padding: 15px; border-radius: 10px; margin-bottom: 25px;
-            text-align: center; color: var(--gold); font-size: 0.9rem; display: none;
-        }
+        .s-info h3 { font-size: 1rem; font-weight: 600; color: #fff; margin-bottom: 4px; }
+        .s-info p { font-size: 0.75rem; color: var(--muted); }
 
+        .form-area { margin-top: 30px; background: #121212; padding: 20px; border-radius: 20px; border: 1px solid #222; }
+        label { color: var(--muted); font-size: 0.7rem; margin-bottom: 5px; display: block; text-transform: uppercase; letter-spacing: 1px; }
+        input, select { width: 100%; background: #080808; border: 1px solid #333; color: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
+        
         .btn-submit {
             width: 100%; padding: 20px; border-radius: 50px; border: none;
             background: var(--gold-gradient); color: #000; font-weight: 800; 
-            text-transform: uppercase; cursor: pointer;
+            text-transform: uppercase; cursor: pointer; margin-top: 10px;
+        }
+
+        #timeSummary {
+            background: rgba(212, 175, 55, 0.1); border: 1px solid var(--gold);
+            padding: 15px; border-radius: 10px; margin-bottom: 20px;
+            text-align: center; color: var(--gold); display: none;
         }
 
         .footer { text-align: center; padding: 40px; color: #444; font-size: 0.7rem; }
 
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* Ajuste Desktop */
+        /* DESKTOP */
         @media (min-width: 768px) {
-            .hero-person { right: 15%; height: 90vh; }
-            .hero-content { padding-left: 15%; top: 30%; }
+            .hero-person { right: 20%; height: 85%; }
+            .hero-content { top: 30%; left: 15%; width: 40%; }
         }
     </style>
 </head>
@@ -224,12 +182,10 @@
 
     <!-- HERO FIXO -->
     <header class="hero">
+        <!-- 1. Fundo -->
         <div class="hero-bg"></div>
         
-        <!-- SOMBRA DE LEITURA (Antes do texto) -->
-        <div class="hero-overlay"></div>
-
-        <!-- CONTEÚDO (TEXTO) -->
+        <!-- 2. Texto (NO TOPO) -->
         <div class="hero-content">
             <span class="hero-subtitle">Nail Designer Premium</span>
             <h1 class="hero-title">Eduarda<br><span>Bott</span></h1>
@@ -241,9 +197,10 @@
             </div>
         </div>
 
-        <!-- FOTO RECORTADA (Mais para a direita) -->
+        <!-- 3. Pessoa (NO CHÃO E DIREITA - SEM NADA NA FRENTE) -->
         <img src="hero_person.png" alt="Eduarda Bott" class="hero-person">
         
+        <!-- Degradezinho só no pé -->
         <div class="hero-fade"></div>
     </header>
 
@@ -253,13 +210,11 @@
             <h2>Portfólio</h2>
         </div>
         <div class="carousel-track">
-            <!-- Imagens Originais -->
             <div class="carousel-item"><img src="unha1.jpg"></div>
             <div class="carousel-item"><img src="unha2.jpg"></div>
             <div class="carousel-item"><img src="unha3.jpg"></div>
             <div class="carousel-item"><img src="unha4.jpg"></div>
             <div class="carousel-item"><img src="unha5.jpg"></div>
-            <!-- Imagens Duplicadas para Loop -->
             <div class="carousel-item"><img src="unha1.jpg"></div>
             <div class="carousel-item"><img src="unha2.jpg"></div>
             <div class="carousel-item"><img src="unha3.jpg"></div>
@@ -315,8 +270,6 @@
 
     <script>
         const WHATSAPP = "5548999999999"; 
-        
-        // LISTA DE SERVIÇOS (Preço e Minutos)
         const services = [
             { id: 1, name: "Banho de Gel", price: 80, time: 120, tStr: "2h" },
             { id: 2, name: "Alongamento Fibra", price: 140, time: 180, tStr: "3h" },
@@ -360,7 +313,7 @@
             const endStr = end.getHours().toString().padStart(2,'0') + ':' + end.getMinutes().toString().padStart(2,'0');
             
             summary.style.display = 'block';
-            summary.innerHTML = `✨ VOCÊ ESCOLHEU: <strong>${selServ.name}</strong><br>🕒 Previsão: Início às <strong>${timeVal}</strong> e término aprox. às <strong>${endStr}</strong>`;
+            summary.innerHTML = `✨ <strong>${selServ.name}</strong><br>Início às ${timeVal} • Término aprox. às <strong>${endStr}</strong>`;
         }
 
         function sendZap() {
@@ -368,7 +321,7 @@
             const d = document.getElementById('cDate').value;
             const t = document.getElementById('cTime').value;
             
-            if(!selServ || !n || !d || !t) { alert('Preencha todos os campos!'); return; }
+            if(!selServ || !n || !d || !t) { alert('Preencha tudo!'); return; }
             
             const dStr = new Date(d).toLocaleDateString('pt-BR', {timeZone:'UTC'});
             const msg = `Olá Eduarda! 💅\nMe chamo *${n}*.\nQuero agendar: *${selServ.name}* (R$ ${selServ.price})\n📅 Data: ${dStr}\n⏰ Horário: ${t}\n\nTem vaga?`;
