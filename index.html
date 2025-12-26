@@ -27,7 +27,7 @@
             overflow-x: hidden;
         }
 
-        /* --- HERO --- */
+        /* --- HERO LIMPO (Foco na Tipografia e Fundo) --- */
         .hero {
             position: relative;
             width: 100%;
@@ -38,98 +38,78 @@
             display: block; 
         }
 
-        /* 1. FUNDO (AJUSTE DE NITIDEZ: MAIS CLARO AGORA) */
+        /* 1. FUNDO (BEM VISÍVEL - 60% BRILHO) */
         .hero-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('hero_bg.jpg'); 
             background-size: cover; 
             background-position: center;
-            /* Aumentei para 0.6 (60%) de brilho. Dá pra ver bem o trabalho agora */
-            filter: brightness(0.6); 
+            filter: brightness(0.6); /* Brilho ajustado para visibilidade */
             z-index: 1;
         }
 
-        /* 2. TEXTO (TRAVADO NO TOPO ESQUERDO) */
+        /* 2. SOMBRA LATERAL (Para o texto não sumir, mas sutil) */
+        .hero-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            /* Degrade suave da esquerda para direita */
+            background: linear-gradient(90deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0) 100%);
+            z-index: 2;
+        }
+
+        /* 3. TEXTO (MAIOR E NA ESQUERDA) */
         .hero-content {
             position: absolute;
-            top: 12%; 
-            left: 20px; 
-            width: 65%; 
+            top: 20%; /* Centralizado verticalmente um pouco acima do meio */
+            left: 25px; 
+            width: 85%; /* Pode ocupar mais espaço agora */
             z-index: 10; 
             text-align: left;
         }
 
         .hero-subtitle {
             color: var(--gold);
-            font-size: 0.7rem;
+            font-size: 0.9rem; /* Aumentei um pouco */
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             font-weight: 800;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
             display: block;
-            /* Sombra mais forte para garantir leitura no fundo mais claro */
-            text-shadow: 2px 2px 4px #000; 
+            text-shadow: 2px 2px 4px #000;
         }
 
         .hero-title {
             font-family: 'Italiana', serif;
-            font-size: 4.2rem; 
+            font-size: 5rem; /* BEM GRANDE */
             line-height: 0.9;
             color: #fff;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 10px #000;
+            margin-bottom: 25px;
+            text-shadow: 3px 3px 15px rgba(0,0,0,0.8);
         }
         
         .hero-title span { color: var(--gold); font-style: italic; }
 
+        /* BADGES */
         .badges-container {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 15px;
             align-items: flex-start;
         }
 
         .badge {
-            background: rgba(15, 15, 15, 0.9); /* Fundo mais escuro para destacar da foto clara */
-            border: 1px solid rgba(212, 175, 55, 0.6);
+            background: rgba(20, 20, 20, 0.7);
+            border-left: 3px solid var(--gold); /* Design mais clean, só borda na esquerda */
             color: #eee;
-            padding: 8px 18px;
-            border-radius: 50px;
-            font-size: 0.8rem;
+            padding: 10px 20px;
+            border-radius: 4px; /* Mais quadrado, moderno */
+            font-size: 0.9rem;
             backdrop-filter: blur(5px);
-            display: flex; align-items: center; gap: 8px;
-            box-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+            display: flex; align-items: center; gap: 10px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
         }
         .badge-icon { color: var(--gold); }
 
-        /* 3. PESSOA (TRAVADA EMBAIXO E NA DIREITA) */
-        .hero-person {
-            position: absolute;
-            bottom: 0;
-            right: -25%; 
-            height: 80vh; 
-            width: auto;
-            z-index: 5;
-            filter: drop-shadow(-10px 0 20px rgba(0,0,0,0.5));
-            pointer-events: none;
-        }
-
-        /* 4. SOMBRA SÓ NA BASE */
-        .hero-fade {
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 25%;
-            background: linear-gradient(to top, var(--bg), transparent);
-            z-index: 6;
-        }
-
-        /* 5. SOMBRA LATERAL (NOVO: Para garantir leitura do texto na esquerda) */
-        .hero-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            /* Escurece apenas a lateral esquerda onde está o texto */
-            background: linear-gradient(90deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
-            z-index: 2;
-        }
-
-        /* --- CARROSSEL --- */
+        /* --- CARROSSEL INFINITO --- */
         .vitrine-section {
             padding: 40px 0;
             background: var(--bg);
@@ -143,10 +123,10 @@
 
         .carousel-track {
             display: flex; gap: 15px; width: max-content;
-            animation: scroll 20s linear infinite;
+            animation: scroll 25s linear infinite;
         }
         .carousel-item {
-            width: 160px; height: 220px; border-radius: 12px; overflow: hidden;
+            width: 170px; height: 230px; border-radius: 8px; overflow: hidden;
             border: 1px solid #333; flex-shrink: 0;
         }
         .carousel-item img { width: 100%; height: 100%; object-fit: cover; }
@@ -157,33 +137,34 @@
         .service-list { display: flex; flex-direction: column; gap: 12px; }
         
         .service-card {
-            background: var(--card-bg); border: 1px solid #333; padding: 18px;
-            border-radius: 15px; display: flex; justify-content: space-between; align-items: center;
+            background: var(--card-bg); border: 1px solid #333; padding: 20px;
+            border-radius: 12px; display: flex; justify-content: space-between; align-items: center;
             cursor: pointer; transition: 0.2s;
         }
         .service-card.selected { border-color: var(--gold); background: rgba(212, 175, 55, 0.1); }
-        .s-price { font-family: 'Italiana', serif; font-size: 1.4rem; font-weight: 700; color: #fff; }
         
-        .s-info h3 { font-size: 1rem; font-weight: 600; color: #fff; margin-bottom: 4px; }
-        .s-info p { font-size: 0.75rem; color: var(--muted); }
+        .s-info h3 { font-size: 1.1rem; font-weight: 600; color: #FFF; margin-bottom: 4px; }
+        .s-info p { font-size: 0.8rem; color: var(--muted); }
+        .s-price { font-family: 'Italiana', serif; font-size: 1.5rem; font-weight: 700; color: var(--gold); }
 
-        .form-area { margin-top: 30px; background: #121212; padding: 25px; border-radius: 20px; border: 1px solid #222; }
+        .form-area { margin-top: 40px; background: #121212; padding: 25px; border-radius: 15px; border: 1px solid #222; }
         label { color: var(--muted); font-size: 0.75rem; margin-bottom: 8px; display: block; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
-        input, select { width: 100%; background: #080808; border: 1px solid #333; color: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; font-size: 1rem; }
+        input, select { width: 100%; background: #080808; border: 1px solid #333; color: white; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 1rem; }
         
         .btn-submit {
             width: 100%; padding: 20px; border-radius: 50px; border: none;
             background: var(--gold-gradient); color: #000; font-weight: 800; 
             text-transform: uppercase; cursor: pointer; margin-top: 10px;
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.2);
         }
 
         #timeSummary {
             background: rgba(212, 175, 55, 0.1); border: 1px solid var(--gold);
-            padding: 15px; border-radius: 10px; margin-bottom: 20px;
+            padding: 15px; border-radius: 10px; margin-bottom: 25px;
             text-align: center; color: var(--gold); display: none; line-height: 1.5;
         }
 
-        /* MODAL */
+        /* MODAL DE GARANTIA */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.9); z-index: 2000;
@@ -206,18 +187,18 @@
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         @keyframes appear { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* Ajustes Desktop */
         @media (min-width: 768px) {
-            .hero-person { right: 20%; height: 85%; }
-            .hero-content { top: 20%; left: 15%; width: 40%; }
+            .hero-content { width: 50%; left: 10%; }
         }
     </style>
 </head>
 <body>
 
-    <!-- HERO FIXO -->
+    <!-- HERO LIMPO (SÓ TEXTO E FUNDO) -->
     <header class="hero">
         <div class="hero-bg"></div>
-        <div class="hero-overlay"></div> <!-- Sombra lateral esquerda pra ler o texto -->
+        <div class="hero-overlay"></div>
         
         <div class="hero-content">
             <span class="hero-subtitle">Nail Designer Premium</span>
@@ -229,9 +210,7 @@
                 <div class="badge"><span class="badge-icon">🕒</span> Seg a Sáb: 07h às 23h</div>
             </div>
         </div>
-
-        <img src="hero_person.png" alt="Eduarda Bott" class="hero-person">
-        <div class="hero-fade"></div>
+        <!-- IMAGEM HERO_PERSON REMOVIDA DAQUI -->
     </header>
 
     <!-- CARROSSEL -->
@@ -240,11 +219,13 @@
             <h2>Portfólio</h2>
         </div>
         <div class="carousel-track">
+            <!-- Imagens Originais -->
             <div class="carousel-item"><img src="unha1.jpg"></div>
             <div class="carousel-item"><img src="unha2.jpg"></div>
             <div class="carousel-item"><img src="unha3.jpg"></div>
             <div class="carousel-item"><img src="unha4.jpg"></div>
             <div class="carousel-item"><img src="unha5.jpg"></div>
+            <!-- Loop -->
             <div class="carousel-item"><img src="unha1.jpg"></div>
             <div class="carousel-item"><img src="unha2.jpg"></div>
             <div class="carousel-item"><img src="unha3.jpg"></div>
@@ -277,6 +258,7 @@
                     <label>Qual horário?</label>
                     <select id="cTime" onchange="calcTime()">
                         <option value="">Selecione...</option>
+                        <!-- Preenchido pelo JS -->
                     </select>
                 </div>
             </div>
@@ -307,6 +289,8 @@
 
     <script>
         const WHATSAPP = "5548999999999"; 
+        
+        // HORÁRIOS: 07:00 as 23:00
         const OPEN_HOUR = 7; 
         const CLOSE_HOUR = 23; 
 
@@ -321,6 +305,7 @@
 
         let selServ = null;
 
+        // INICIALIZAÇÃO
         window.onload = () => {
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('cDate').min = today;
@@ -345,6 +330,7 @@
             calcTime();
         }
 
+        // LÓGICA DE HORÁRIOS (30 EM 30 MIN)
         function updateTimeSlots() {
             const dateVal = document.getElementById('cDate').value;
             const timeSelect = document.getElementById('cTime');
