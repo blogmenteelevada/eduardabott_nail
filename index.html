@@ -27,7 +27,7 @@
             overflow-x: hidden;
         }
 
-        /* --- HERO: LAYOUT TRAVADO (REVISTA) --- */
+        /* --- HERO: DESIGN ESPELHADO (TEXTO DIREITA / ELA ESQUERDA) --- */
         .hero {
             position: relative;
             width: 100%;
@@ -38,24 +38,25 @@
             display: block; 
         }
 
-        /* 1. FUNDO (FOTO TRABALHANDO - COLORIDA ESCURECIDA) */
+        /* 1. FUNDO */
         .hero-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('hero_bg.jpg'); 
             background-size: cover; 
             background-position: center;
-            filter: brightness(0.35); /* Apenas escuro, sem grayscale */
+            filter: brightness(0.35); 
             z-index: 1;
         }
 
-        /* 2. TEXTO (TRAVADO NA ESQUERDA - LIMITE DE LARGURA) */
+        /* 2. TEXTO (AGORA NA DIREITA) */
         .hero-content {
             position: absolute;
-            top: 15%; 
-            left: 20px; 
-            width: 55%; /* Ocupa só metade da tela para não bater nela */
+            top: 12%; 
+            right: 20px; /* Travado na Direita */
+            left: auto;  /* Solta a esquerda */
+            width: 65%; 
             z-index: 10; 
-            text-align: left;
+            text-align: right; /* Alinha texto para direita */
         }
 
         .hero-subtitle {
@@ -71,7 +72,7 @@
 
         .hero-title {
             font-family: 'Italiana', serif;
-            font-size: 3.8rem; 
+            font-size: 4.2rem; 
             line-height: 0.9;
             color: #fff;
             margin-bottom: 20px;
@@ -80,11 +81,12 @@
         
         .hero-title span { color: var(--gold); font-style: italic; }
 
+        /* BADGES (Alinhados a direita) */
         .badges-container {
             display: flex;
             flex-direction: column;
             gap: 12px;
-            align-items: flex-start;
+            align-items: flex-end; /* Alinha itens na direita */
         }
 
         .badge {
@@ -97,22 +99,31 @@
             backdrop-filter: blur(5px);
             display: flex; align-items: center; gap: 8px;
             box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+            flex-direction: row-reverse; /* Inverte icone e texto para ficar bonito na direita */
         }
         .badge-icon { color: var(--gold); }
 
-        /* 3. PESSOA (TRAVADA NA DIREITA - SEM TEXTO EM CIMA) */
+        /* 3. PESSOA (AGORA NA ESQUERDA) */
         .hero-person {
             position: absolute;
             bottom: 0;
-            right: -10%; 
-            height: 75%; /* Tamanho bom para mobile */
+            left: -15%; /* Joga para a ESQUERDA */
+            right: auto;
+            height: 75%; 
             width: auto;
             z-index: 5;
-            filter: drop-shadow(-10px 0 20px rgba(0,0,0,0.5));
+            filter: drop-shadow(10px 0 20px rgba(0,0,0,0.5)); /* Sombra invertida */
             pointer-events: none;
         }
 
-        /* 4. SOMBRA SÓ NA BASE */
+        /* 4. SOMBRA DE LEITURA (Focada na direita agora) */
+        .hero-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            /* Degrade da Direita (Preto) para Esquerda (Transparente) */
+            background: linear-gradient(-90deg, rgba(15,15,15,0.95) 0%, rgba(15,15,15,0.6) 50%, rgba(15,15,15,0) 100%);
+            z-index: 3;
+        }
+
         .hero-fade {
             position: absolute; bottom: 0; left: 0; width: 100%; height: 25%;
             background: linear-gradient(to top, var(--bg), transparent);
@@ -152,16 +163,13 @@
             cursor: pointer; transition: 0.2s;
         }
         .service-card.selected { border-color: var(--gold); background: rgba(212, 175, 55, 0.1); }
-        
-        /* CORES RESTAURADAS */
-        .s-info h3 { font-size: 1rem; font-weight: 600; color: #FFF; margin-bottom: 4px; }
+        .s-info h3 { font-size: 1rem; font-weight: 600; color: #fff; margin-bottom: 4px; }
         .s-info p { font-size: 0.75rem; color: var(--muted); }
         .s-price { font-family: 'Italiana', serif; font-size: 1.4rem; font-weight: 700; color: var(--gold); }
 
         .form-area { margin-top: 30px; background: #121212; padding: 25px; border-radius: 20px; border: 1px solid #222; }
         label { color: var(--muted); font-size: 0.75rem; margin-bottom: 8px; display: block; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
-        
-        input, select { width: 100%; background: #080808; border: 1px solid #333; color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 1rem; }
+        input, select { width: 100%; background: #080808; border: 1px solid #333; color: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; font-size: 1rem; }
         
         .btn-submit {
             width: 100%; padding: 20px; border-radius: 50px; border: none;
@@ -175,7 +183,7 @@
             text-align: center; color: var(--gold); display: none; line-height: 1.5;
         }
 
-        /* MODAL DE GARANTIA */
+        /* MODAL */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.9); z-index: 2000;
@@ -198,10 +206,9 @@
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         @keyframes appear { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Ajustes Desktop */
         @media (min-width: 768px) {
-            .hero-person { right: 20%; height: 85%; }
-            .hero-content { top: 20%; left: 15%; width: 40%; }
+            .hero-person { left: 20%; height: 85%; }
+            .hero-content { top: 20%; right: 15%; width: 40%; }
         }
     </style>
 </head>
@@ -212,18 +219,21 @@
         <div class="hero-bg"></div>
         <div class="hero-overlay"></div>
         
+        <!-- TEXTO NA DIREITA -->
         <div class="hero-content">
             <span class="hero-subtitle">Nail Designer Premium</span>
             <h1 class="hero-title">Eduarda<br><span>Bott</span></h1>
             
             <div class="badges-container">
-                <div class="badge"><span class="badge-icon">📍</span> Praia do Sonho</div>
-                <div class="badge"><span class="badge-icon">✨</span> Especialista em Fibra</div>
-                <div class="badge"><span class="badge-icon">🕒</span> Seg a Sáb: 07h às 23h</div>
+                <div class="badge">Praia do Sonho <span class="badge-icon">📍</span></div>
+                <div class="badge">Especialista em Fibra <span class="badge-icon">✨</span></div>
+                <div class="badge">Seg a Sáb: 07h às 23h <span class="badge-icon">🕒</span></div>
             </div>
         </div>
 
+        <!-- PESSOA NA ESQUERDA -->
         <img src="hero_person.png" alt="Eduarda Bott" class="hero-person">
+        
         <div class="hero-fade"></div>
     </header>
 
@@ -233,13 +243,11 @@
             <h2>Portfólio</h2>
         </div>
         <div class="carousel-track">
-            <!-- Imagens Originais -->
             <div class="carousel-item"><img src="unha1.jpg"></div>
             <div class="carousel-item"><img src="unha2.jpg"></div>
             <div class="carousel-item"><img src="unha3.jpg"></div>
             <div class="carousel-item"><img src="unha4.jpg"></div>
             <div class="carousel-item"><img src="unha5.jpg"></div>
-            <!-- Loop -->
             <div class="carousel-item"><img src="unha1.jpg"></div>
             <div class="carousel-item"><img src="unha2.jpg"></div>
             <div class="carousel-item"><img src="unha3.jpg"></div>
@@ -269,10 +277,9 @@
                     <input type="date" id="cDate" onchange="updateTimeSlots()">
                 </div>
                 <div>
-                    <label>Horário</label>
+                    <label>Qual horário?</label>
                     <select id="cTime" onchange="calcTime()">
                         <option value="">Selecione...</option>
-                        <!-- JS vai gerar de 30 em 30 min -->
                     </select>
                 </div>
             </div>
@@ -287,7 +294,7 @@
         © 2026 Eduarda Bott Nails • Tecnologia <span style="color:var(--gold)">Migre Agora</span>
     </div>
 
-    <!-- MODAL DE GARANTIA -->
+    <!-- MODAL -->
     <div id="modalOverlay" class="modal-overlay">
         <div class="modal-box">
             <h3 class="modal-title">✨ Garantia de Vaga</h3>
@@ -303,8 +310,6 @@
 
     <script>
         const WHATSAPP = "5548999999999"; 
-        
-        // HORÁRIOS: 07:00 as 23:00
         const OPEN_HOUR = 7; 
         const CLOSE_HOUR = 23; 
 
@@ -319,7 +324,6 @@
 
         let selServ = null;
 
-        // INICIALIZAÇÃO
         window.onload = () => {
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('cDate').min = today;
@@ -344,7 +348,6 @@
             calcTime();
         }
 
-        // LÓGICA FLEXÍVEL (30 EM 30 MIN)
         function updateTimeSlots() {
             const dateVal = document.getElementById('cDate').value;
             const timeSelect = document.getElementById('cTime');
@@ -358,16 +361,12 @@
             const currentHour = now.getHours();
             const currentMin = now.getMinutes();
 
-            // Gera horários de 7h às 23h com intervalo de 30min
-            for (let h = OPEN_HOUR; h < CLOSE_HOUR; h++) {
+            for (let h = OPEN_HOUR; h <= CLOSE_HOUR; h++) {
                 for (let m = 0; m < 60; m += 30) {
-                    
-                    // Se for hoje e já passou do horário, pula
                     if (isToday) {
                         if (h < currentHour) continue;
                         if (h === currentHour && m <= currentMin) continue;
                     }
-
                     const timeStr = h.toString().padStart(2, '0') + ':' + m.toString().padStart(2, '0');
                     const opt = document.createElement('option');
                     opt.value = timeStr;
@@ -417,8 +416,6 @@
             
             const dObj = new Date(d + 'T00:00:00'); 
             const dStr = dObj.toLocaleDateString('pt-BR');
-            
-            // Pega o horário final calculado
             const [h, m] = t.split(':').map(Number);
             const end = new Date();
             end.setHours(h);
