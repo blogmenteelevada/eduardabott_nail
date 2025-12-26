@@ -27,7 +27,7 @@
             overflow-x: hidden;
         }
 
-        /* --- HERO: DESIGN ESPELHADO (TEXTO DIREITA / ELA ESQUERDA) --- */
+        /* --- HERO --- */
         .hero {
             position: relative;
             width: 100%;
@@ -38,25 +38,25 @@
             display: block; 
         }
 
-        /* 1. FUNDO */
+        /* 1. FUNDO (AJUSTE DE NITIDEZ: MAIS CLARO AGORA) */
         .hero-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('hero_bg.jpg'); 
             background-size: cover; 
             background-position: center;
-            filter: brightness(0.35); 
+            /* Aumentei para 0.6 (60%) de brilho. Dá pra ver bem o trabalho agora */
+            filter: brightness(0.6); 
             z-index: 1;
         }
 
-        /* 2. TEXTO (AGORA NA DIREITA) */
+        /* 2. TEXTO (TRAVADO NO TOPO ESQUERDO) */
         .hero-content {
             position: absolute;
             top: 12%; 
-            right: 20px; /* Travado na Direita */
-            left: auto;  /* Solta a esquerda */
+            left: 20px; 
             width: 65%; 
             z-index: 10; 
-            text-align: right; /* Alinha texto para direita */
+            text-align: left;
         }
 
         .hero-subtitle {
@@ -67,7 +67,8 @@
             font-weight: 800;
             margin-bottom: 5px;
             display: block;
-            text-shadow: 2px 2px 4px #000;
+            /* Sombra mais forte para garantir leitura no fundo mais claro */
+            text-shadow: 2px 2px 4px #000; 
         }
 
         .hero-title {
@@ -81,53 +82,51 @@
         
         .hero-title span { color: var(--gold); font-style: italic; }
 
-        /* BADGES (Alinhados a direita) */
         .badges-container {
             display: flex;
             flex-direction: column;
             gap: 12px;
-            align-items: flex-end; /* Alinha itens na direita */
+            align-items: flex-start;
         }
 
         .badge {
-            background: rgba(20, 20, 20, 0.85);
-            border: 1px solid rgba(212, 175, 55, 0.4);
+            background: rgba(15, 15, 15, 0.9); /* Fundo mais escuro para destacar da foto clara */
+            border: 1px solid rgba(212, 175, 55, 0.6);
             color: #eee;
             padding: 8px 18px;
             border-radius: 50px;
             font-size: 0.8rem;
             backdrop-filter: blur(5px);
             display: flex; align-items: center; gap: 8px;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-            flex-direction: row-reverse; /* Inverte icone e texto para ficar bonito na direita */
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.8);
         }
         .badge-icon { color: var(--gold); }
 
-        /* 3. PESSOA (AGORA NA ESQUERDA) */
+        /* 3. PESSOA (TRAVADA EMBAIXO E NA DIREITA) */
         .hero-person {
             position: absolute;
             bottom: 0;
-            left: -15%; /* Joga para a ESQUERDA */
-            right: auto;
-            height: 75%; 
+            right: -25%; 
+            height: 80vh; 
             width: auto;
             z-index: 5;
-            filter: drop-shadow(10px 0 20px rgba(0,0,0,0.5)); /* Sombra invertida */
+            filter: drop-shadow(-10px 0 20px rgba(0,0,0,0.5));
             pointer-events: none;
         }
 
-        /* 4. SOMBRA DE LEITURA (Focada na direita agora) */
-        .hero-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            /* Degrade da Direita (Preto) para Esquerda (Transparente) */
-            background: linear-gradient(-90deg, rgba(15,15,15,0.95) 0%, rgba(15,15,15,0.6) 50%, rgba(15,15,15,0) 100%);
-            z-index: 3;
-        }
-
+        /* 4. SOMBRA SÓ NA BASE */
         .hero-fade {
             position: absolute; bottom: 0; left: 0; width: 100%; height: 25%;
             background: linear-gradient(to top, var(--bg), transparent);
             z-index: 6;
+        }
+
+        /* 5. SOMBRA LATERAL (NOVO: Para garantir leitura do texto na esquerda) */
+        .hero-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            /* Escurece apenas a lateral esquerda onde está o texto */
+            background: linear-gradient(90deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
+            z-index: 2;
         }
 
         /* --- CARROSSEL --- */
@@ -163,9 +162,10 @@
             cursor: pointer; transition: 0.2s;
         }
         .service-card.selected { border-color: var(--gold); background: rgba(212, 175, 55, 0.1); }
+        .s-price { font-family: 'Italiana', serif; font-size: 1.4rem; font-weight: 700; color: #fff; }
+        
         .s-info h3 { font-size: 1rem; font-weight: 600; color: #fff; margin-bottom: 4px; }
         .s-info p { font-size: 0.75rem; color: var(--muted); }
-        .s-price { font-family: 'Italiana', serif; font-size: 1.4rem; font-weight: 700; color: var(--gold); }
 
         .form-area { margin-top: 30px; background: #121212; padding: 25px; border-radius: 20px; border: 1px solid #222; }
         label { color: var(--muted); font-size: 0.75rem; margin-bottom: 8px; display: block; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
@@ -207,8 +207,8 @@
         @keyframes appear { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         @media (min-width: 768px) {
-            .hero-person { left: 20%; height: 85%; }
-            .hero-content { top: 20%; right: 15%; width: 40%; }
+            .hero-person { right: 20%; height: 85%; }
+            .hero-content { top: 20%; left: 15%; width: 40%; }
         }
     </style>
 </head>
@@ -217,23 +217,20 @@
     <!-- HERO FIXO -->
     <header class="hero">
         <div class="hero-bg"></div>
-        <div class="hero-overlay"></div>
+        <div class="hero-overlay"></div> <!-- Sombra lateral esquerda pra ler o texto -->
         
-        <!-- TEXTO NA DIREITA -->
         <div class="hero-content">
             <span class="hero-subtitle">Nail Designer Premium</span>
             <h1 class="hero-title">Eduarda<br><span>Bott</span></h1>
             
             <div class="badges-container">
-                <div class="badge">Praia do Sonho <span class="badge-icon">📍</span></div>
-                <div class="badge">Especialista em Fibra <span class="badge-icon">✨</span></div>
-                <div class="badge">Seg a Sáb: 07h às 23h <span class="badge-icon">🕒</span></div>
+                <div class="badge"><span class="badge-icon">📍</span> Praia do Sonho</div>
+                <div class="badge"><span class="badge-icon">✨</span> Especialista em Fibra</div>
+                <div class="badge"><span class="badge-icon">🕒</span> Seg a Sáb: 07h às 23h</div>
             </div>
         </div>
 
-        <!-- PESSOA NA ESQUERDA -->
         <img src="hero_person.png" alt="Eduarda Bott" class="hero-person">
-        
         <div class="hero-fade"></div>
     </header>
 
@@ -294,7 +291,7 @@
         © 2026 Eduarda Bott Nails • Tecnologia <span style="color:var(--gold)">Migre Agora</span>
     </div>
 
-    <!-- MODAL -->
+    <!-- MODAL DE GARANTIA -->
     <div id="modalOverlay" class="modal-overlay">
         <div class="modal-box">
             <h3 class="modal-title">✨ Garantia de Vaga</h3>
