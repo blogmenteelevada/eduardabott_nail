@@ -8,11 +8,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@300;400;600;800&display=swap" rel="stylesheet">
     
     <style>
+        /* --- CONFIGURAÇÕES GERAIS --- */
         :root {
             --bg: #0F0F0F;
-            --card-bg: #1A1A1A;
+            --card-bg: #141414;
             --gold: #D4AF37;
-            --gold-gradient: linear-gradient(135deg, #D4AF37 0%, #F3E5AB 100%);
+            --gold-light: #F3E5AB;
             --text: #F5F5F5;
             --muted: #888;
         }
@@ -26,33 +27,35 @@
             overflow-x: hidden;
         }
 
-        /* --- HERO CORRIGIDO: SEPARAÇÃO TOTAL --- */
+        /* --- HERO: DESIGN CORRIGIDO (SPLIT) --- */
         .hero {
             position: relative;
             width: 100%;
             height: 100vh;
-            height: 100dvh;
+            height: 100dvh; /* Altura real do mobile */
             overflow: hidden;
             background-color: #000;
+            display: block; /* IMPORTANTE: Removemos flex para controlar posições manualmente */
         }
 
-        /* 1. FUNDO */
+        /* 1. FUNDO (FOTO TRABALHANDO - SEM PRETO E BRANCO) */
         .hero-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('hero_bg.jpg'); 
             background-size: cover; 
             background-position: center;
-            filter: brightness(0.3); /* Escuro para contraste */
+            filter: brightness(0.35); /* Apenas escurecido */
             z-index: 1;
         }
 
         /* 2. TEXTO (TRAVADO NO TOPO ESQUERDO) */
         .hero-content {
             position: absolute;
-            top: 10%; /* Fica bem no topo */
+            top: 12%; /* Distância do topo */
             left: 20px; /* Margem esquerda */
-            z-index: 10; /* Fica na frente de tudo */
-            width: 70%; /* Ocupa só 70% da largura para não bater na direita */
+            width: 65%; /* Ocupa apenas 65% da largura, deixando a direita livre */
+            z-index: 10; /* Sempre na frente */
+            text-align: left;
         }
 
         .hero-subtitle {
@@ -63,64 +66,67 @@
             font-weight: 800;
             margin-bottom: 5px;
             display: block;
+            text-shadow: 2px 2px 4px #000;
         }
 
         .hero-title {
             font-family: 'Italiana', serif;
-            font-size: 4rem;
+            font-size: 4.2rem; /* Tamanho grande */
             line-height: 0.9;
             color: #fff;
             margin-bottom: 20px;
+            text-shadow: 2px 2px 10px #000;
         }
         
         .hero-title span { color: var(--gold); font-style: italic; }
 
+        /* BADGES (Abaixo do texto) */
         .badges-container {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            align-items: flex-start;
+            gap: 12px;
+            align-items: flex-start; /* Alinha à esquerda */
         }
 
         .badge {
-            background: rgba(20, 20, 20, 0.9); /* Fundo mais sólido para ler */
+            background: rgba(20, 20, 20, 0.85);
             border: 1px solid rgba(212, 175, 55, 0.4);
             color: #eee;
-            padding: 8px 16px;
+            padding: 8px 18px;
             border-radius: 50px;
             font-size: 0.8rem;
+            backdrop-filter: blur(5px);
             display: flex; align-items: center; gap: 8px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
         }
         .badge-icon { color: var(--gold); }
 
-        /* 3. PESSOA (TRAVADA NO CANTO INFERIOR DIREITO) */
+        /* 3. PESSOA (TRAVADA EMBAIXO E NA DIREITA) */
         .hero-person {
             position: absolute;
             bottom: 0;
-            right: 0; /* Cola na direita */
-            height: 55%; /* Ocupa pouco mais da metade da tela (pra não bater no texto lá em cima) */
-            width: auto;
-            max-width: 90%;
+            right: -15%; /* Joga um pouco pra fora pra direita */
+            height: 60%; /* Altura fixa relativa à tela (mostra o rosto) */
+            width: auto; /* Mantém proporção */
             z-index: 5;
-            object-fit: contain;
-            object-position: bottom right;
-            filter: drop-shadow(-5px 0 15px rgba(0,0,0,0.5));
+            filter: drop-shadow(-10px 0 20px rgba(0,0,0,0.5));
+            pointer-events: none;
         }
 
-        /* 4. SOMBRA SÓ NA BASE DA FOTO (Não atrapalha o rosto) */
+        /* 4. SOMBRA SÓ NA BASE */
         .hero-fade {
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 15%;
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 25%;
             background: linear-gradient(to top, var(--bg), transparent);
             z-index: 6;
         }
 
-        /* --- CARROSSEL --- */
+        /* --- CARROSSEL INFINITO --- */
         .vitrine-section {
             padding: 40px 0;
             background: var(--bg);
             border-bottom: 1px solid #222;
             overflow: hidden;
-            position: relative; z-index: 7; /* Acima do hero */
+            position: relative; z-index: 7;
         }
         
         .section-header { text-align: center; margin-bottom: 20px; }
@@ -136,28 +142,52 @@
         }
         .carousel-item img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* --- AGENDAMENTO --- */
+        /* --- AGENDAMENTO (CORES CORRIGIDAS) --- */
         .booking-section { padding: 40px 20px; max-width: 600px; margin: 0 auto; }
         
         .service-list { display: flex; flex-direction: column; gap: 12px; }
+        
         .service-card {
-            background: var(--card-bg); border: 1px solid #333; padding: 18px;
-            border-radius: 15px; display: flex; justify-content: space-between; align-items: center;
+            background: var(--card-bg); 
+            border: 1px solid #333; 
+            padding: 18px;
+            border-radius: 15px; 
+            display: flex; justify-content: space-between; align-items: center;
             cursor: pointer; transition: 0.2s;
         }
-        .service-card.selected { border-color: var(--gold); background: rgba(212, 175, 55, 0.1); }
-        .s-price { font-family: 'Italiana', serif; font-size: 1.4rem; font-weight: 700; color: #fff; }
         
-        .s-info h3 { font-size: 1rem; font-weight: 600; color: #fff; margin-bottom: 4px; }
-        .s-info p { font-size: 0.75rem; color: var(--muted); }
+        .service-card.selected { 
+            border-color: var(--gold); 
+            background: rgba(212, 175, 55, 0.1); 
+        }
 
+        /* CORREÇÃO DAS CORES DOS TEXTOS */
+        .s-info h3 { 
+            font-size: 1rem; 
+            font-weight: 600; 
+            color: #FFFFFF; /* BRANCO PURO */
+            margin-bottom: 4px; 
+        }
+        .s-info p { 
+            font-size: 0.75rem; 
+            color: var(--muted); /* Cinza */
+        }
+        .s-price { 
+            font-family: 'Italiana', serif; 
+            font-size: 1.4rem; 
+            font-weight: 700; 
+            color: var(--gold); /* DOURADO */
+        }
+
+        /* FORMULÁRIO */
         .form-area { margin-top: 30px; background: #121212; padding: 20px; border-radius: 20px; border: 1px solid #222; }
         label { color: var(--muted); font-size: 0.7rem; margin-bottom: 5px; display: block; text-transform: uppercase; letter-spacing: 1px; }
-        input, select { width: 100%; background: #080808; border: 1px solid #333; color: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
+        input, select { width: 100%; background: #080808; border: 1px solid #333; color: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; font-size: 1rem; }
         
         .btn-submit {
             width: 100%; padding: 20px; border-radius: 50px; border: none;
-            background: var(--gold-gradient); color: #000; font-weight: 800; 
+            background: linear-gradient(135deg, #D4AF37 0%, #F3E5AB 100%); 
+            color: #000; font-weight: 800; 
             text-transform: uppercase; cursor: pointer; margin-top: 10px;
         }
 
@@ -171,10 +201,10 @@
 
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* DESKTOP */
+        /* Ajuste para Desktop (Só centraliza) */
         @media (min-width: 768px) {
             .hero-person { right: 20%; height: 85%; }
-            .hero-content { top: 30%; left: 15%; width: 40%; }
+            .hero-content { top: 20%; left: 15%; width: 40%; }
         }
     </style>
 </head>
@@ -182,10 +212,10 @@
 
     <!-- HERO FIXO -->
     <header class="hero">
-        <!-- 1. Fundo -->
+        <!-- 1. Fundo Trabalhando -->
         <div class="hero-bg"></div>
         
-        <!-- 2. Texto (NO TOPO) -->
+        <!-- 2. Texto (NO TOPO ESQUERDO) -->
         <div class="hero-content">
             <span class="hero-subtitle">Nail Designer Premium</span>
             <h1 class="hero-title">Eduarda<br><span>Bott</span></h1>
@@ -197,10 +227,9 @@
             </div>
         </div>
 
-        <!-- 3. Pessoa (NO CHÃO E DIREITA - SEM NADA NA FRENTE) -->
+        <!-- 3. Pessoa (CANTO DIREITO INFERIOR - SEM TEXTO EM CIMA) -->
         <img src="hero_person.png" alt="Eduarda Bott" class="hero-person">
         
-        <!-- Degradezinho só no pé -->
         <div class="hero-fade"></div>
     </header>
 
@@ -210,11 +239,13 @@
             <h2>Portfólio</h2>
         </div>
         <div class="carousel-track">
+            <!-- Imagens Originais -->
             <div class="carousel-item"><img src="unha1.jpg"></div>
             <div class="carousel-item"><img src="unha2.jpg"></div>
             <div class="carousel-item"><img src="unha3.jpg"></div>
             <div class="carousel-item"><img src="unha4.jpg"></div>
             <div class="carousel-item"><img src="unha5.jpg"></div>
+            <!-- Imagens Loop -->
             <div class="carousel-item"><img src="unha1.jpg"></div>
             <div class="carousel-item"><img src="unha2.jpg"></div>
             <div class="carousel-item"><img src="unha3.jpg"></div>
@@ -313,7 +344,7 @@
             const endStr = end.getHours().toString().padStart(2,'0') + ':' + end.getMinutes().toString().padStart(2,'0');
             
             summary.style.display = 'block';
-            summary.innerHTML = `✨ <strong>${selServ.name}</strong><br>Início às ${timeVal} • Término aprox. às <strong>${endStr}</strong>`;
+            summary.innerHTML = `✨ VOCÊ ESCOLHEU: <strong>${selServ.name}</strong><br>🕒 Previsão: Início às <strong>${timeVal}</strong> e término aprox. às <strong>${endStr}</strong>`;
         }
 
         function sendZap() {
