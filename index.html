@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eduarda Bott | Nail Designer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0F0F0F;
+            --card: #1A1A1A;
+            --gold: #D4AF37;
+            --gold-light: #F3E5AB;
+            --text: #F5F5F5;
+            --gray: #888;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Manrope', sans-serif; }
+        
+        body { 
+            background-color: var(--bg); 
+            color: var(--text); 
+            overflow-x: hidden;
+        }
+
+        /* --- HERO SECTION DE CAPA DE REVISTA --- */
+        .hero {
+            position: relative;
+            height: 100vh; /* Tela inteira */
+            max-height: 800px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        /* 1. Camada de Fundo (Ela trabalhando) */
+        .hero-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('hero_bg.jpg'); 
+            background-size: cover; background-position: center;
+            filter: grayscale(40%) brightness(0.4); /* Escurece para o texto aparecer */
+            z-index: 1;
+        }
+
+        /* 2. Camada de Texto (Esquerda) */
+        .hero-text {
+            position: relative; z-index: 3;
+            width: 100%; max-width: 1200px; margin: 0 auto;
+            padding: 20px;
+            display: flex; flex-direction: column; justify-content: center;
+            height: 100%;
+        }
+
+        .hero-text h2 {
+            font-family: 'Manrope', sans-serif;
+            font-weight: 300;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .hero-text h1 {
+            font-family: 'Italiana', serif;
+            font-size: 4.5rem;
+            line-height: 0.9;
+            background: linear-gradient(to right, #fff, #ccc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        .hero-badges {
+            display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;
+        }
+
+        .badge {
+            border: 1px solid var(--gold);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            background: rgba(212, 175, 55, 0.1);
+            backdrop-filter: blur(5px);
+            color: var(--gold-light);
+        }
+
+        /* 3. Camada da Pessoa (Recortada - Direita/Baixo) */
+        .hero-person {
+            position: absolute;
+            bottom: 0;
+            right: -50px; /* Ajuste fino */
+            height: 90%; /* Tamanho dela na tela */
+            width: auto;
+            z-index: 2;
+            filter: drop-shadow(-10px 0 20px rgba(0,0,0,0.5)); /* Sombra nela */
+        }
+
+        /* --- CARROSSEL INFINITO --- */
+        .marquee {
+            background: var(--bg);
+            padding: 30px 0;
+            border-top: 1px solid #333;
+            border-bottom: 1px solid #333;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .track {
+            display: inline-block;
+            animation: scroll 20s linear infinite;
+        }
+
+        .img-box {
+            display: inline-block;
+            width: 200px; height: 250px;
+            margin: 0 10px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+
+        .img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .img-box:hover img { transform: scale(1.1); }
+
+        @keyframes scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* --- SISTEMA DE AGENDAMENTO --- */
+        .booking-area {
+            max-width: 600px; margin: 50px auto; padding: 20px;
+        }
+
+        .section-title {
+            font-family: 'Italiana', serif; font-size: 2.5rem; color: var(--gold);
+            text-align: center; margin-bottom: 10px;
+        }
+        .section-subtitle {
+            text-align: center; color: var(--gray); font-size: 0.9rem; margin-bottom: 40px;
+        }
+
+        /* Cards de Serviço */
+        .service-list { display: flex; flex-direction: column; gap: 15px; }
+
+        .service-card {
+            background: var(--card); border: 1px solid #333; padding: 20px;
+            border-radius: 15px; display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; transition: 0.3s;
+        }
+        
+        .service-card:hover { border-color: #555; }
+        .service-card.selected { border-color: var(--gold); background: rgba(212, 175, 55, 0.05); }
+
+        .s-info h3 { font-size: 1.1rem; margin-bottom: 5px; color: #fff; }
+        .s-info p { font-size: 0.8rem; color: var(--gold); display: flex; align-items: center; gap: 5px; }
+        .s-price { font-size: 1.2rem; font-weight: 700; color: #fff; }
+
+        /* Formulário */
+        .form-grid {
+            display: grid; gap: 20px; margin-top: 40px;
+            background: var(--card); padding: 25px; border-radius: 20px; border: 1px solid #333;
+        }
+
+        label { font-size: 0.8rem; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 8px; }
+        
+        input, select {
+            width: 100%; background: #0F0F0F; border: 1px solid #333; color: white;
+            padding: 15px; border-radius: 10px; font-size: 1rem; outline: none;
+        }
+        input:focus, select:focus { border-color: var(--gold); }
+
+        /* RESUMO DO TEMPO (A Mágica) */
+        .time-summary {
+            background: rgba(212, 175, 55, 0.1); border: 1px solid var(--gold);
+            padding: 15px; border-radius: 10px; margin-top: 20px;
+            display: none; /* Aparece com JS */
+            text-align: center;
+        }
+        .time-summary span { color: var(--gold); font-weight: 700; }
+
+        .btn-book {
+            width: 100%; padding: 18px; border-radius: 50px; border: none;
+            background: linear-gradient(90deg, #D4AF37, #F3E5AB);
+            color: #000; font-weight: 700; font-size: 1rem; text-transform: uppercase;
+            letter-spacing: 1px; cursor: pointer; margin-top: 10px;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); transition: 0.3s;
+        }
+        .btn-book:hover { transform: scale(1.02); box-shadow: 0 0 30px rgba(212, 175, 55, 0.4); }
+
+        .footer { text-align: center; padding: 40px 20px; color: #444; font-size: 0.8rem; }
+
+        /* Responsividade do Hero */
+        @media (max-width: 768px) {
+            .hero { align-items: flex-end; }
+            .hero-text { height: auto; padding-bottom: 350px; /* Espaço pra foto não tapar texto */ text-align: center; }
+            .hero-text h1 { font-size: 3rem; }
+            .hero-badges { justify-content: center; }
+            
+            .hero-person {
+                height: 55%; /* Menor no mobile */
+                right: 50%; transform: translateX(50%); /* Centralizado */
+                bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO SECTION -->
+    <header class="hero">
+        <div class="hero-bg"></div>
+        
+        <div class="hero-text">
+            <h2>Nail Designer</h2>
+            <h1>Eduarda<br>Bott</h1>
+            <div class="hero-badges">
+                <span class="badge">📍 Praia do Sonho</span>
+                <span class="badge">✨ Especialista em Fibra</span>
+                <span class="badge">📅 Agenda 2026</span>
+            </div>
+        </div>
+
+        <!-- A FOTO RECORTADA DELA VEM AQUI -->
+        <img src="hero_person.png" alt="Eduarda Bott" class="hero-person">
+    </header>
+
+    <!-- CARROSSEL VITRINE -->
+    <div class="marquee">
+        <div class="track">
+            <!-- 5 Imagens duplicadas para loop infinito -->
+            <div class="img-box"><img src="unha1.jpg"></div>
+            <div class="img-box"><img src="unha2.jpg"></div>
+            <div class="img-box"><img src="unha3.jpg"></div>
+            <div class="img-box"><img src="unha4.jpg"></div>
+            <div class="img-box"><img src="unha5.jpg"></div>
+            <!-- Repetição -->
+            <div class="img-box"><img src="unha1.jpg"></div>
+            <div class="img-box"><img src="unha2.jpg"></div>
+            <div class="img-box"><img src="unha3.jpg"></div>
+            <div class="img-box"><img src="unha4.jpg"></div>
+            <div class="img-box"><img src="unha5.jpg"></div>
+        </div>
+    </div>
+
+    <!-- ÁREA DE AGENDAMENTO -->
+    <section class="booking-area">
+        <h2 class="section-title">Experience</h2>
+        <p class="section-subtitle">Selecione o procedimento para verificar disponibilidade</p>
+
+        <div class="service-list" id="servicesContainer">
+            <!-- JS vai preencher -->
+        </div>
+
+        <div class="form-grid">
+            <div>
+                <label>Seu Nome</label>
+                <input type="text" id="clientName" placeholder="Digite seu nome">
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div>
+                    <label>Data</label>
+                    <input type="date" id="clientDate">
+                </div>
+                <div>
+                    <label>Horário de Início</label>
+                    <select id="clientTime" onchange="calculateTime()">
+                        <option value="">Escolha...</option>
+                        <option value="09:00">09:00</option>
+                        <option value="10:00">10:00</option>
+                        <option value="13:00">13:00</option>
+                        <option value="14:00">14:00</option>
+                        <option value="16:00">16:00</option>
+                        <option value="18:00">18:00</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- CARD DE RESUMO INTELIGENTE -->
+            <div id="timeSummary" class="time-summary">
+                Selecione um serviço e horário para calcular a previsão de término.
+            </div>
+
+            <button class="btn-book" onclick="sendWhatsapp()">Solicitar Agendamento</button>
+        </div>
+    </section>
+
+    <div class="footer">
+        © 2026 Eduarda Bott Nails • Design by <span style="color:var(--gold)">Migre Agora</span>
+    </div>
+
+    <script>
+        // --- DADOS DA EDUARDA ---
+        const WHATSAPP = "5548999999999"; 
+
+        // SERVIÇOS COM DURAÇÃO (Em Minutos)
+        const services = [
+            { id: 1, name: "Banho de Gel", price: 80, time: 120, timeStr: "2h" },
+            { id: 2, name: "Alongamento Fibra", price: 140, time: 180, timeStr: "3h" },
+            { id: 3, name: "Manutenção Fibra", price: 90, time: 120, timeStr: "2h" },
+            { id: 4, name: "Esmaltação em Gel", price: 60, time: 90, timeStr: "1h30" },
+            { id: 5, name: "Blindagem", price: 70, time: 90, timeStr: "1h30" },
+            { id: 6, name: "Remoção", price: 40, time: 40, timeStr: "40min" }
+        ];
+
+        let selectedService = null;
+
+        // Renderiza lista
+        const container = document.getElementById('servicesContainer');
+        container.innerHTML = services.map(s => `
+            <div class="service-card" onclick="selectService(this, ${s.id})">
+                <div class="s-info">
+                    <h3>${s.name}</h3>
+                    <p>⏱ Duração média: ${s.timeStr}</p>
+                </div>
+                <div class="s-price">R$ ${s.price}</div>
+            </div>
+        `).join('');
+
+        function selectService(el, id) {
+            document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedService = services.find(s => s.id === id);
+            calculateTime();
+        }
+
+        function calculateTime() {
+            const timeSelect = document.getElementById('clientTime');
+            const summary = document.getElementById('timeSummary');
+            
+            if (!selectedService || timeSelect.value === "") {
+                summary.style.display = "none";
+                return;
+            }
+
+            const startTime = timeSelect.value; // ex: "14:00"
+            const durationMinutes = selectedService.time;
+
+            // Calculo de horas
+            let [hours, minutes] = startTime.split(':').map(Number);
+            let date = new Date();
+            date.setHours(hours);
+            date.setMinutes(minutes + durationMinutes);
+
+            let endHour = date.getHours().toString().padStart(2, '0');
+            let endMinute = date.getMinutes().toString().padStart(2, '0');
+
+            summary.style.display = "block";
+            summary.innerHTML = `
+                Procedimento: <span>${selectedService.name}</span><br>
+                Previsão: <span>${startTime}</span> até às <span>${endHour}:${endMinute}</span>
+            `;
+        }
+
+        function sendWhatsapp() {
+            const name = document.getElementById('clientName').value;
+            const date = document.getElementById('clientDate').value;
+            const time = document.getElementById('clientTime').value;
+
+            if (!selectedService || !name || !date || !time) {
+                alert("Por favor, preencha todos os dados para verificarmos a agenda!");
+                return;
+            }
+
+            // Formata data
+            const dateObj = new Date(date);
+            const dateStr = dateObj.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+
+            // Pega o horário de término do resumo
+            const summaryText = document.getElementById('timeSummary').innerText;
+            
+            // Texto Bonito
+            const msg = `Olá Eduarda! 💅\nMe chamo *${name}*.\n\nGostaria de verificar disponibilidade para:\n✨ *${selectedService.name}* (R$ ${selectedService.price})\n📅 Data: *${dateStr}*\n⏰ Horário: *${time}* (Duração de ${selectedService.timeStr})\n\nFico no aguardo!`;
+
+            window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`);
+        }
+    </script>
+</body>
+</html>
