@@ -4,204 +4,319 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eduarda Bott | Nail Designer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@300;500;700&display=swap" rel="stylesheet">
+    <!-- Fontes Premium -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
+        /* --- CONFIGURAÇÕES GERAIS --- */
         :root {
-            --bg: #0F0F0F;
-            --card: #1A1A1A;
-            --gold: #D4AF37;
-            --gold-light: #F3E5AB;
+            --bg: #0a0a0a;       /* Preto Profundo */
+            --card: #141414;     /* Cinza Cartão */
+            --gold: #D4AF37;     /* Dourado Principal */
+            --gold-light: #F3E5AB; 
             --text: #F5F5F5;
-            --gray: #888;
+            --text-muted: #a0a0a0;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Manrope', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body { 
             background-color: var(--bg); 
             color: var(--text); 
-            overflow-x: hidden;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden; /* Evita rolagem lateral */
         }
 
-        /* --- HERO SECTION DE CAPA DE REVISTA --- */
+        /* --- HERO SECTION (CAPA DE REVISTA) --- */
         .hero {
             position: relative;
-            height: 100vh; /* Tela inteira */
-            max-height: 800px;
-            overflow: hidden;
+            height: 100vh; /* Ocupa a tela toda */
+            min-height: 650px;
+            width: 100%;
             display: flex;
             align-items: center;
+            overflow: hidden;
         }
 
-        /* 1. Camada de Fundo (Ela trabalhando) */
+        /* 1. Fundo (Ela trabalhando) */
         .hero-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('hero_bg.jpg'); 
-            background-size: cover; background-position: center;
-            filter: grayscale(40%) brightness(0.4); /* Escurece para o texto aparecer */
+            background-size: cover; 
+            background-position: center;
             z-index: 1;
         }
 
-        /* 2. Camada de Texto (Esquerda) */
-        .hero-text {
+        /* 2. Sombra Gradiente (Preto na esquerda -> Transparente na direita) */
+        .hero-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, #0a0a0a 0%, rgba(10,10,10,0.95) 35%, rgba(10,10,10,0.4) 100%);
+            z-index: 2;
+        }
+
+        /* 3. Container Principal (Segura o layout) */
+        .hero-container {
             position: relative; z-index: 3;
             width: 100%; max-width: 1200px; margin: 0 auto;
-            padding: 20px;
-            display: flex; flex-direction: column; justify-content: center;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             height: 100%;
         }
 
-        .hero-text h2 {
-            font-family: 'Manrope', sans-serif;
-            font-weight: 300;
+        /* LADO ESQUERDO: TEXTOS */
+        .hero-content {
+            width: 50%;
+            padding-bottom: 50px;
+            animation: fadeLeft 1s ease-out;
+        }
+
+        .hero-subtitle {
+            font-family: 'Montserrat', sans-serif;
             color: var(--gold);
             text-transform: uppercase;
             letter-spacing: 4px;
-            font-size: 1rem;
-            margin-bottom: 10px;
-        }
-
-        .hero-text h1 {
-            font-family: 'Italiana', serif;
-            font-size: 4.5rem;
-            line-height: 0.9;
-            background: linear-gradient(to right, #fff, #ccc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 0.85rem;
             margin-bottom: 15px;
+            font-weight: 600;
+            display: block;
         }
 
+        .hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 5.5rem; /* Fonte Gigante e Fina */
+            line-height: 0.9;
+            color: #fff;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+        
+        .hero-title span { 
+            color: var(--gold); 
+            font-style: italic; 
+            font-weight: 700;
+        }
+
+        /* Badges (Etiquetas) */
         .hero-badges {
-            display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;
+            display: flex; gap: 12px; flex-wrap: wrap;
         }
 
         .badge {
-            border: 1px solid var(--gold);
-            padding: 8px 16px;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            padding: 10px 20px;
             border-radius: 50px;
             font-size: 0.8rem;
-            background: rgba(212, 175, 55, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: #ddd;
             backdrop-filter: blur(5px);
-            color: var(--gold-light);
+            display: flex; align-items: center; gap: 8px;
         }
 
-        /* 3. Camada da Pessoa (Recortada - Direita/Baixo) */
-        .hero-person {
+        /* LADO DIREITO: FOTO RECORTADA */
+        .hero-image-wrapper {
             position: absolute;
             bottom: 0;
-            right: -50px; /* Ajuste fino */
-            height: 90%; /* Tamanho dela na tela */
-            width: auto;
-            z-index: 2;
-            filter: drop-shadow(-10px 0 20px rgba(0,0,0,0.5)); /* Sombra nela */
+            right: 0;
+            width: 50%;
+            height: 90%; /* Altura da imagem na tela */
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            pointer-events: none; /* Deixa clicar através se precisar */
         }
 
-        /* --- CARROSSEL INFINITO --- */
-        .marquee {
+        .hero-person {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+            object-position: bottom center;
+            /* Sombra suave atrás dela para descolar do fundo */
+            filter: drop-shadow(0 0 30px rgba(0,0,0,0.8)); 
+            animation: fadeUp 1s ease-out;
+        }
+
+        /* --- CARROSSEL INFINITO (VITRINE) --- */
+        .vitrine-section {
+            padding: 60px 0;
             background: var(--bg);
-            padding: 30px 0;
-            border-top: 1px solid #333;
-            border-bottom: 1px solid #333;
+            border-bottom: 1px solid #222;
+        }
+        
+        .vitrine-title {
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .carousel-container {
             overflow: hidden;
             white-space: nowrap;
+            position: relative;
         }
 
-        .track {
+        /* Degradê nas pontas do carrossel para suavizar */
+        .carousel-container::before, .carousel-container::after {
+            content: "";
+            position: absolute; top: 0; width: 100px; height: 100%;
+            z-index: 2;
+        }
+        .carousel-container::before { left: 0; background: linear-gradient(to right, var(--bg), transparent); }
+        .carousel-container::after { right: 0; background: linear-gradient(to left, var(--bg), transparent); }
+
+        .carousel-track {
             display: inline-block;
-            animation: scroll 20s linear infinite;
+            animation: scroll 25s linear infinite;
         }
 
-        .img-box {
+        .carousel-item {
             display: inline-block;
-            width: 200px; height: 250px;
+            width: 220px;
+            height: 300px;
             margin: 0 10px;
             border-radius: 8px;
             overflow: hidden;
             border: 1px solid #333;
+            transition: 0.3s;
+        }
+        .carousel-item:hover { border-color: var(--gold); transform: scale(1.02); }
+
+        .carousel-item img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* --- SEÇÃO DE AGENDAMENTO --- */
+        .booking-section {
+            max-width: 600px;
+            margin: 60px auto;
+            padding: 20px;
         }
 
-        .img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .img-box:hover img { transform: scale(1.1); }
+        .section-header { margin-bottom: 40px; text-align: center; }
+        .section-header h2 { font-family: 'Cormorant Garamond', serif; color: var(--text); font-size: 2.5rem; }
+        .section-header p { color: var(--text-muted); font-size: 0.9rem; margin-top: 5px; }
 
-        @keyframes scroll {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
-        }
-
-        /* --- SISTEMA DE AGENDAMENTO --- */
-        .booking-area {
-            max-width: 600px; margin: 50px auto; padding: 20px;
-        }
-
-        .section-title {
-            font-family: 'Italiana', serif; font-size: 2.5rem; color: var(--gold);
-            text-align: center; margin-bottom: 10px;
-        }
-        .section-subtitle {
-            text-align: center; color: var(--gray); font-size: 0.9rem; margin-bottom: 40px;
-        }
-
-        /* Cards de Serviço */
-        .service-list { display: flex; flex-direction: column; gap: 15px; }
+        /* Lista de Serviços */
+        .service-list { display: grid; gap: 15px; }
 
         .service-card {
-            background: var(--card); border: 1px solid #333; padding: 20px;
-            border-radius: 15px; display: flex; justify-content: space-between; align-items: center;
-            cursor: pointer; transition: 0.3s;
+            background: var(--card);
+            border: 1px solid #222;
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
         }
-        
-        .service-card:hover { border-color: #555; }
-        .service-card.selected { border-color: var(--gold); background: rgba(212, 175, 55, 0.05); }
 
-        .s-info h3 { font-size: 1.1rem; margin-bottom: 5px; color: #fff; }
-        .s-info p { font-size: 0.8rem; color: var(--gold); display: flex; align-items: center; gap: 5px; }
-        .s-price { font-size: 1.2rem; font-weight: 700; color: #fff; }
+        .service-card:hover { border-color: #444; }
+        .service-card.selected {
+            border-color: var(--gold);
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.1), transparent);
+        }
+
+        .serv-info h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 5px; }
+        .serv-info p { font-size: 0.8rem; color: var(--gold); display: flex; align-items: center; gap: 5px; }
+        .serv-price { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 700; color: var(--gold); }
 
         /* Formulário */
-        .form-grid {
-            display: grid; gap: 20px; margin-top: 40px;
-            background: var(--card); padding: 25px; border-radius: 20px; border: 1px solid #333;
-        }
-
-        label { font-size: 0.8rem; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 8px; }
+        .input-group { margin-top: 40px; background: var(--card); padding: 25px; border-radius: 15px; border: 1px solid #222; }
+        .input-label { display: block; color: var(--text-muted); font-size: 0.75rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
         
         input, select {
-            width: 100%; background: #0F0F0F; border: 1px solid #333; color: white;
-            padding: 15px; border-radius: 10px; font-size: 1rem; outline: none;
+            width: 100%; background: #0a0a0a; border: 1px solid #333; color: white;
+            padding: 15px; border-radius: 8px; font-size: 1rem; outline: none; margin-bottom: 20px;
+            font-family: 'Montserrat', sans-serif;
         }
         input:focus, select:focus { border-color: var(--gold); }
 
-        /* RESUMO DO TEMPO (A Mágica) */
+        /* Card de Resumo de Tempo */
         .time-summary {
-            background: rgba(212, 175, 55, 0.1); border: 1px solid var(--gold);
-            padding: 15px; border-radius: 10px; margin-top: 20px;
-            display: none; /* Aparece com JS */
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid var(--gold);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            margin-bottom: 20px;
             text-align: center;
+            font-size: 0.9rem;
+            color: var(--gold-light);
+            display: none; /* JS mostra isso */
         }
-        .time-summary span { color: var(--gold); font-weight: 700; }
 
-        .btn-book {
-            width: 100%; padding: 18px; border-radius: 50px; border: none;
-            background: linear-gradient(90deg, #D4AF37, #F3E5AB);
-            color: #000; font-weight: 700; font-size: 1rem; text-transform: uppercase;
-            letter-spacing: 1px; cursor: pointer; margin-top: 10px;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); transition: 0.3s;
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(45deg, #bf953f, #fcf6ba, #b38728);
+            color: #000;
+            border: none;
+            padding: 18px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 25px rgba(191, 149, 63, 0.2);
+            transition: transform 0.2s;
         }
-        .btn-book:hover { transform: scale(1.02); box-shadow: 0 0 30px rgba(212, 175, 55, 0.4); }
+        .btn-submit:hover { transform: scale(1.02); }
 
-        .footer { text-align: center; padding: 40px 20px; color: #444; font-size: 0.8rem; }
+        .footer {
+            text-align: center; padding: 40px 20px; color: #444; font-size: 0.7rem; border-top: 1px solid #222; margin-top: 40px;
+        }
 
-        /* Responsividade do Hero */
+        /* --- ANIMAÇÕES --- */
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* --- RESPONSIVIDADE (CELULAR) --- */
         @media (max-width: 768px) {
-            .hero { align-items: flex-end; }
-            .hero-text { height: auto; padding-bottom: 350px; /* Espaço pra foto não tapar texto */ text-align: center; }
-            .hero-text h1 { font-size: 3rem; }
+            .hero-bg { background-position: center; }
+            /* No celular, o gradiente vem de baixo pra cima pra escurecer atrás do texto */
+            .hero-overlay { background: linear-gradient(0deg, #0a0a0a 20%, rgba(10,10,10,0.8) 50%, rgba(10,10,10,0.2) 100%); }
+            
+            .hero-container {
+                flex-direction: column;
+                justify-content: flex-end; /* Texto vai pro fundo */
+            }
+
+            .hero-content {
+                width: 100%;
+                text-align: center;
+                position: relative;
+                z-index: 10;
+                padding-bottom: 80px; /* Sobe um pouco do rodapé */
+            }
+
+            .hero-title { font-size: 3.5rem; margin-bottom: 20px; }
             .hero-badges { justify-content: center; }
+
+            .hero-image-wrapper {
+                width: 100%;
+                height: 65%; /* Ela ocupa 65% da tela no mobile */
+                right: 0;
+                left: 0;
+                bottom: 0;
+                z-index: 5; /* Fica atrás do texto */
+            }
             
             .hero-person {
-                height: 55%; /* Menor no mobile */
-                right: 50%; transform: translateX(50%); /* Centralizado */
-                bottom: 0;
+                /* Ajuste fino para a foto não ficar na cara do texto no mobile */
+                mask-image: linear-gradient(to bottom, black 80%, transparent 100%); /* Suaviza o corte embaixo */
+                opacity: 0.9;
             }
         }
     </style>
@@ -210,63 +325,76 @@
 
     <!-- HERO SECTION -->
     <header class="hero">
+        <!-- Fundo e Sombra -->
         <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
         
-        <div class="hero-text">
-            <h2>Nail Designer</h2>
-            <h1>Eduarda<br>Bott</h1>
-            <div class="hero-badges">
-                <span class="badge">📍 Praia do Sonho</span>
-                <span class="badge">✨ Especialista em Fibra</span>
-                <span class="badge">📅 Agenda 2026</span>
+        <div class="hero-container">
+            <!-- Lado Esquerdo: Texto -->
+            <div class="hero-content">
+                <span class="hero-subtitle">Nail Designer Premium</span>
+                <h1 class="hero-title">Eduarda<br><span>Bott</span></h1>
+                
+                <div class="hero-badges">
+                    <div class="badge">📍 Praia do Sonho</div>
+                    <div class="badge">✨ Especialista em Fibra</div>
+                    <div class="badge">📅 Agenda 2026</div>
+                </div>
+            </div>
+
+            <!-- Lado Direito: Imagem Dela -->
+            <div class="hero-image-wrapper">
+                <img src="hero_person.png" alt="Eduarda Bott" class="hero-person">
             </div>
         </div>
-
-        <!-- A FOTO RECORTADA DELA VEM AQUI -->
-        <img src="hero_person.png" alt="Eduarda Bott" class="hero-person">
     </header>
 
     <!-- CARROSSEL VITRINE -->
-    <div class="marquee">
-        <div class="track">
-            <!-- 5 Imagens duplicadas para loop infinito -->
-            <div class="img-box"><img src="unha1.jpg"></div>
-            <div class="img-box"><img src="unha2.jpg"></div>
-            <div class="img-box"><img src="unha3.jpg"></div>
-            <div class="img-box"><img src="unha4.jpg"></div>
-            <div class="img-box"><img src="unha5.jpg"></div>
-            <!-- Repetição -->
-            <div class="img-box"><img src="unha1.jpg"></div>
-            <div class="img-box"><img src="unha2.jpg"></div>
-            <div class="img-box"><img src="unha3.jpg"></div>
-            <div class="img-box"><img src="unha4.jpg"></div>
-            <div class="img-box"><img src="unha5.jpg"></div>
-        </div>
-    </div>
-
-    <!-- ÁREA DE AGENDAMENTO -->
-    <section class="booking-area">
-        <h2 class="section-title">Experience</h2>
-        <p class="section-subtitle">Selecione o procedimento para verificar disponibilidade</p>
-
-        <div class="service-list" id="servicesContainer">
-            <!-- JS vai preencher -->
-        </div>
-
-        <div class="form-grid">
-            <div>
-                <label>Seu Nome</label>
-                <input type="text" id="clientName" placeholder="Digite seu nome">
+    <section class="vitrine-section">
+        <div class="vitrine-title">Portfólio Exclusivo</div>
+        <div class="carousel-container">
+            <div class="carousel-track">
+                <!-- Imagens Originais -->
+                <div class="carousel-item"><img src="unha1.jpg"></div>
+                <div class="carousel-item"><img src="unha2.jpg"></div>
+                <div class="carousel-item"><img src="unha3.jpg"></div>
+                <div class="carousel-item"><img src="unha4.jpg"></div>
+                <div class="carousel-item"><img src="unha5.jpg"></div>
+                <!-- Imagens Duplicadas (Loop) -->
+                <div class="carousel-item"><img src="unha1.jpg"></div>
+                <div class="carousel-item"><img src="unha2.jpg"></div>
+                <div class="carousel-item"><img src="unha3.jpg"></div>
+                <div class="carousel-item"><img src="unha4.jpg"></div>
+                <div class="carousel-item"><img src="unha5.jpg"></div>
             </div>
-            
+        </div>
+    </section>
+
+    <!-- AGENDAMENTO -->
+    <section class="booking-section">
+        <div class="section-header">
+            <h2>Experience</h2>
+            <p>Selecione o procedimento para verificar disponibilidade</p>
+        </div>
+
+        <!-- LISTA DE SERVIÇOS -->
+        <div class="service-list" id="serviceList">
+            <!-- Renderizado via JS -->
+        </div>
+
+        <!-- FORMULÁRIO -->
+        <div class="input-group">
+            <label class="input-label">Seu Nome</label>
+            <input type="text" id="cName" placeholder="Digite seu nome">
+
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                 <div>
-                    <label>Data</label>
-                    <input type="date" id="clientDate">
+                    <label class="input-label">Data Preferida</label>
+                    <input type="date" id="cDate">
                 </div>
                 <div>
-                    <label>Horário de Início</label>
-                    <select id="clientTime" onchange="calculateTime()">
+                    <label class="input-label">Horário de Início</label>
+                    <select id="cTime" onchange="calculateTime()">
                         <option value="">Escolha...</option>
                         <option value="09:00">09:00</option>
                         <option value="10:00">10:00</option>
@@ -278,24 +406,22 @@
                 </div>
             </div>
 
-            <!-- CARD DE RESUMO INTELIGENTE -->
-            <div id="timeSummary" class="time-summary">
-                Selecione um serviço e horário para calcular a previsão de término.
-            </div>
+            <!-- Resumo Inteligente -->
+            <div id="timeSummary" class="time-summary"></div>
 
-            <button class="btn-book" onclick="sendWhatsapp()">Solicitar Agendamento</button>
+            <button class="btn-submit" onclick="sendWhatsapp()">Solicitar Agendamento</button>
         </div>
     </section>
 
     <div class="footer">
-        © 2026 Eduarda Bott Nails • Design by <span style="color:var(--gold)">Migre Agora</span>
+        © 2026 Eduarda Bott Nails • Tecnologia <span style="color:var(--gold)">Migre Agora</span>
     </div>
 
     <script>
         // --- DADOS DA EDUARDA ---
         const WHATSAPP = "5548999999999"; 
 
-        // SERVIÇOS COM DURAÇÃO (Em Minutos)
+        // SERVIÇOS (Preço e Tempo em minutos)
         const services = [
             { id: 1, name: "Banho de Gel", price: 80, time: 120, timeStr: "2h" },
             { id: 2, name: "Alongamento Fibra", price: 140, time: 180, timeStr: "3h" },
@@ -308,14 +434,14 @@
         let selectedService = null;
 
         // Renderiza lista
-        const container = document.getElementById('servicesContainer');
+        const container = document.getElementById('serviceList');
         container.innerHTML = services.map(s => `
             <div class="service-card" onclick="selectService(this, ${s.id})">
-                <div class="s-info">
+                <div class="serv-info">
                     <h3>${s.name}</h3>
                     <p>⏱ Duração média: ${s.timeStr}</p>
                 </div>
-                <div class="s-price">R$ ${s.price}</div>
+                <div class="serv-price">R$ ${s.price}</div>
             </div>
         `).join('');
 
@@ -327,7 +453,7 @@
         }
 
         function calculateTime() {
-            const timeSelect = document.getElementById('clientTime');
+            const timeSelect = document.getElementById('cTime');
             const summary = document.getElementById('timeSummary');
             
             if (!selectedService || timeSelect.value === "") {
@@ -335,7 +461,7 @@
                 return;
             }
 
-            const startTime = timeSelect.value; // ex: "14:00"
+            const startTime = timeSelect.value; 
             const durationMinutes = selectedService.time;
 
             // Calculo de horas
@@ -349,30 +475,25 @@
 
             summary.style.display = "block";
             summary.innerHTML = `
-                Procedimento: <span>${selectedService.name}</span><br>
-                Previsão: <span>${startTime}</span> até às <span>${endHour}:${endMinute}</span>
+                ✨ Procedimento: <strong>${selectedService.name}</strong><br>
+                🕒 Previsão: Início às <strong>${startTime}</strong> e término aprox. às <strong>${endHour}:${endMinute}</strong>
             `;
         }
 
         function sendWhatsapp() {
-            const name = document.getElementById('clientName').value;
-            const date = document.getElementById('clientDate').value;
-            const time = document.getElementById('clientTime').value;
+            const name = document.getElementById('cName').value;
+            const date = document.getElementById('cDate').value;
+            const time = document.getElementById('cTime').value;
 
             if (!selectedService || !name || !date || !time) {
-                alert("Por favor, preencha todos os dados para verificarmos a agenda!");
+                alert("Por favor, preencha todos os campos para verificarmos a disponibilidade! ✨");
                 return;
             }
 
-            // Formata data
             const dateObj = new Date(date);
             const dateStr = dateObj.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
 
-            // Pega o horário de término do resumo
-            const summaryText = document.getElementById('timeSummary').innerText;
-            
-            // Texto Bonito
-            const msg = `Olá Eduarda! 💅\nMe chamo *${name}*.\n\nGostaria de verificar disponibilidade para:\n✨ *${selectedService.name}* (R$ ${selectedService.price})\n📅 Data: *${dateStr}*\n⏰ Horário: *${time}* (Duração de ${selectedService.timeStr})\n\nFico no aguardo!`;
+            const msg = `Olá Eduarda! 💅\nMe chamo *${name}*.\n\nGostaria de agendar:\n✨ *${selectedService.name}* (R$ ${selectedService.price})\n📅 Data: *${dateStr}*\n⏰ Início: *${time}* (Duração de ${selectedService.timeStr})\n\nTem horário disponível?`;
 
             window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`);
         }
